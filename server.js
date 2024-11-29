@@ -32,6 +32,11 @@ app.use(cors({
 
 app.use(express.json());
 
+// Root route to check if backend is running
+app.get('/', (req, res) => {
+  res.send('Hi Manish, your backend is up!');
+});
+
 // Rate limiting for all routes
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
