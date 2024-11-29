@@ -20,6 +20,7 @@ import {
   Alert,
 } from '@mui/material';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const ModeratorPanel = () => {
   const [users, setUsers] = useState([]);
@@ -34,21 +35,19 @@ const ModeratorPanel = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/protected/users');
+      const response = await axios.get(`${API_URL}/api/protected/users`);
       setUsers(response.data);
     } catch (error) {
-      setError('Failed to fetch users');
+      console.error('Error fetching users:', error);
     }
   };
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`/api/protected/users/${userId}`);
-      setSuccess('User deleted successfully');
+      await axios.delete(`${API_URL}/api/protected/users/${userId}`);
       fetchUsers();
-      handleCloseDeleteDialog();
     } catch (error) {
-      setError('Failed to delete user');
+      console.error('Error deleting user:', error);
     }
   };
 

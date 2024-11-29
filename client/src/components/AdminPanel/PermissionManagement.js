@@ -45,8 +45,8 @@ const PermissionManagement = () => {
   const fetchRolesAndPermissions = async () => {
     try {
       const [rolesResponse, permissionsResponse] = await Promise.all([
-        axios.get('/api/roles'),
-        axios.get('/api/permissions'),
+        axios.get('https://secure-auth-api.vercel.app/api/roles'),
+        axios.get('https://secure-auth-api.vercel.app/api/permissions'),
       ]);
       setRoles(rolesResponse.data);
       setPermissions(permissionsResponse.data);
@@ -57,7 +57,7 @@ const PermissionManagement = () => {
 
   const handlePermissionChange = async (roleId, permissionName, checked) => {
     try {
-      await axios.patch(`/api/roles/${roleId}/permissions`, {
+      await axios.patch(`https://secure-auth-api.vercel.app/api/roles/${roleId}/permissions`, {
         permission: permissionName,
         value: checked,
       });
@@ -70,7 +70,7 @@ const PermissionManagement = () => {
 
   const handleAddPermission = async () => {
     try {
-      await axios.post('/api/permissions', newPermission);
+      await axios.post('https://secure-auth-api.vercel.app/api/permissions', newPermission);
       setOpenDialog(false);
       setNewPermission({ name: '', description: '', category: '' });
       fetchRolesAndPermissions();
@@ -82,7 +82,7 @@ const PermissionManagement = () => {
 
   const handleDeletePermission = async (permissionId) => {
     try {
-      await axios.delete(`/api/permissions/${permissionId}`);
+      await axios.delete(`https://secure-auth-api.vercel.app/api/permissions/${permissionId}`);
       fetchRolesAndPermissions();
       enqueueSnackbar('Permission deleted successfully', { variant: 'success' });
     } catch (error) {

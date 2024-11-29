@@ -55,7 +55,7 @@ const TwoFactorSetup = () => {
     try {
       setLoading(true);
       setError('');
-      const response = await axios.post('/api/auth/2fa/setup');
+      const response = await axios.post('https://secure-auth-api.vercel.app/api/auth/2fa/setup');
       setQrCode(response.data.qrCode);
       setSecret(response.data.secret);
       setBackupCodes(response.data.backupCodes);
@@ -70,11 +70,11 @@ const TwoFactorSetup = () => {
     try {
       setLoading(true);
       setError('');
-      await axios.post('/api/auth/2fa/verify', { token: verificationCode });
+      await axios.post('https://secure-auth-api.vercel.app/api/auth/2fa/verify', { token: verificationCode });
       updateUser({ ...user, twoFactorEnabled: true });
       setSuccess('2FA has been enabled successfully');
       // Send email notification
-      await axios.post('/api/auth/2fa/notify', { 
+      await axios.post('https://secure-auth-api.vercel.app/api/auth/2fa/notify', { 
         action: 'enabled',
         email: user.email 
       });
@@ -93,10 +93,10 @@ const TwoFactorSetup = () => {
     try {
       setLoading(true);
       setError('');
-      await axios.post('/api/auth/2fa/disable', { token: verificationCode });
+      await axios.post('https://secure-auth-api.vercel.app/api/auth/2fa/disable', { token: verificationCode });
       updateUser({ ...user, twoFactorEnabled: false });
       // Send email notification
-      await axios.post('/api/auth/2fa/notify', { 
+      await axios.post('https://secure-auth-api.vercel.app/api/auth/2fa/notify', { 
         action: 'disabled',
         email: user.email 
       });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import {
   Container,
   Paper,
@@ -34,10 +35,10 @@ const AdminPanel = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/protected/users');
+      const response = await axios.get(`${API_URL}/api/protected/users`);
       setUsers(response.data);
     } catch (error) {
-      setError('Failed to fetch users');
+      console.error('Error fetching users:', error);
     }
   };
 
@@ -53,7 +54,7 @@ const AdminPanel = () => {
 
   const handleUpdateUser = async () => {
     try {
-      await axios.put(`/api/protected/users/${selectedUser._id}`, {
+      await axios.put(`${API_URL}/api/protected/users/${selectedUser._id}`, {
         role: selectedUser.role,
       });
       
@@ -67,7 +68,7 @@ const AdminPanel = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`/api/protected/users/${userId}`);
+      await axios.delete(`${API_URL}/api/protected/users/${userId}`);
       setSuccess('User deleted successfully');
       fetchUsers();
     } catch (error) {

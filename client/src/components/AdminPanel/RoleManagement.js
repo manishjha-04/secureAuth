@@ -98,10 +98,10 @@ const RoleManagement = () => {
     e.preventDefault();
     try {
       if (selectedRole) {
-        await axios.put(`/api/roles/${selectedRole._id}`, formData);
+        await axios.put(`https://secure-auth-api.vercel.app/api/roles/${selectedRole._id}`, formData);
         enqueueSnackbar('Role updated successfully', { variant: 'success' });
       } else {
-        await axios.post('/api/roles', formData);
+        await axios.post('https://secure-auth-api.vercel.app/api/roles', formData);
         enqueueSnackbar('Role created successfully', { variant: 'success' });
       }
       fetchRoles();
@@ -115,7 +115,7 @@ const RoleManagement = () => {
 
   const handleDeleteRole = async (roleId) => {
     try {
-      await axios.delete(`/api/roles/${roleId}`);
+      await axios.delete(`https://secure-auth-api.vercel.app/api/roles/${roleId}`);
       enqueueSnackbar('Role deleted successfully', { variant: 'success' });
       fetchRoles();
     } catch (error) {

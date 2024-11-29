@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
           try {
             const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
-              const response = await axios.post('/api/auth/refresh-token', {
+              const response = await axios.post('https://secure-auth-api.vercel.app/api/auth/refresh-token', {
                 refreshToken,
               });
               
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get('/api/protected/profile');
+      const response = await axios.get('https://secure-auth-api.vercel.app/api/protected/profile');
       setUser(response.data.user);
       setIsAuthenticated(true);
     } catch (error) {
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await axios.post('/api/auth/login', credentials);
+      const response = await axios.post('https://secure-auth-api.vercel.app/api/auth/login', credentials);
       
       if (response.data.requires2FA) {
         return { requires2FA: true };
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
+      const response = await axios.post('https://secure-auth-api.vercel.app/api/auth/register', userData);
       
       const { accessToken, refreshToken, user } = response.data;
       localStorage.setItem('token', accessToken);
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post('/api/auth/logout');
+      await axios.post('https://secure-auth-api.vercel.app/api/auth/logout');
     } catch (error) {
       console.error('Error during logout:', error);
     } finally {

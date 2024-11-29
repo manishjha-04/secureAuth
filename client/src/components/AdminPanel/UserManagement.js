@@ -51,7 +51,7 @@ const UserManagement = () => {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await axios.get('/api/profile');
+      const response = await axios.get('https://secure-auth-api.vercel.app/api/profile');
       setCurrentUser(response.data.user);
       setCurrentUserRole(response.data.user.role);
     } catch (error) {
@@ -61,7 +61,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/users');
+      const response = await axios.get('https://secure-auth-api.vercel.app/api/users');
       setUsers(response.data);
     } catch (error) {
       enqueueSnackbar('Failed to fetch users', { variant: 'error' });
@@ -70,7 +70,7 @@ const UserManagement = () => {
 
   const fetchRoles = async () => {
     try {
-      const response = await axios.get('/api/roles');
+      const response = await axios.get('https://secure-auth-api.vercel.app/api/roles');
       setRoles(response.data);
     } catch (error) {
       enqueueSnackbar('Failed to fetch roles', { variant: 'error' });
@@ -123,10 +123,10 @@ const UserManagement = () => {
     e.preventDefault();
     try {
       if (selectedUser) {
-        await axios.put(`/api/users/${selectedUser._id}`, formData);
+        await axios.put(`https://secure-auth-api.vercel.app/api/users/${selectedUser._id}`, formData);
         enqueueSnackbar('User updated successfully', { variant: 'success' });
       } else {
-        await axios.post('/api/users', formData);
+        await axios.post('https://secure-auth-api.vercel.app/api/users', formData);
         enqueueSnackbar('User created successfully', { variant: 'success' });
       }
       fetchUsers();
@@ -140,7 +140,7 @@ const UserManagement = () => {
 
   const handleDeleteUser = async () => {
     try {
-      await axios.delete(`/api/users/${selectedUser._id}`);
+      await axios.delete(`https://secure-auth-api.vercel.app/api/users/${selectedUser._id}`);
       enqueueSnackbar('User deleted successfully', { variant: 'success' });
       fetchUsers();
       handleCloseDeleteDialog();

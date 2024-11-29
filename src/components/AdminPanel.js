@@ -34,7 +34,7 @@ const AdminPanel = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/protected/users');
+      const response = await axios.get('https://secure-auth-api.vercel.app/api/protected/users');
       setUsers(response.data);
     } catch (error) {
       setError('Failed to fetch users');
@@ -53,7 +53,7 @@ const AdminPanel = () => {
 
   const handleUpdateUser = async () => {
     try {
-      await axios.put(`/api/protected/users/${selectedUser._id}`, {
+      await axios.put(`https://secure-auth-api.vercel.app/api/protected/users/${selectedUser._id}`, {
         role: selectedUser.role,
       });
       

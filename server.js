@@ -25,7 +25,7 @@ app.use(securityHeaders);
 
 // CORS configuration
 app.use(cors({
-  origin: true,
+  origin: ['https://secure-auth-frontend.vercel.app', 'http://localhost:3000'],
   credentials: true,
   exposedHeaders: ['Authorization']
 }));
