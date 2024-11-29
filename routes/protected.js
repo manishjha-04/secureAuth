@@ -33,13 +33,20 @@ router.get('/admin',
   }
 );
 
-// Get all users (admin only)
+// Get all users (admin and moderator)
 router.get('/users',
   authenticate,
-  authorize('admin'),
+  authorize('admin', 'moderator'),
   async (req, res) => {
     try {
-      const users = await User.find({}, '-password -__v').sort({ createdAt: -1 });
+      let users;
+      if (req.user.role === 'moderator') {
+        // Moderators can only see regular users
+        users = await User.find({ role: 'user' }).select('-password -__v');
+      } else {
+        // Admins can see all users
+        users = await User.find().select('-password -__v');
+      }
       res.json(users);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -68,6 +75,42 @@ router.put('/users/:id',
       res.json(user);
     } catch (error) {
       console.error('Error updating user:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
+// Delete user (admin and moderator)
+router.delete('/users/:id',
+  authenticate,
+  authorize('admin', 'moderator'),
+  async (req, res) => {
+    try {
+      // Get the user to be deleted
+      const userToDelete = await User.findById(req.params.id);
+      
+      if (!userToDelete) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Moderators can only delete regular users
+      if (req.user.role === 'moderator' && userToDelete.role !== 'user') {
+        return res.status(403).json({ 
+          message: 'Moderators can only delete regular users' 
+        });
+      }
+
+      // Admin can delete any user except themselves
+      if (req.user.role === 'admin' && req.user._id.toString() === req.params.id) {
+        return res.status(403).json({ 
+          message: 'Admins cannot delete their own account' 
+        });
+      }
+
+      await User.findByIdAndDelete(req.params.id);
+      res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting user:', error);
       res.status(500).json({ message: 'Server error' });
     }
   }

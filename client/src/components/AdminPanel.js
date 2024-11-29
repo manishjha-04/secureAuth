@@ -65,6 +65,16 @@ const AdminPanel = () => {
     }
   };
 
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/protected/users/${userId}`);
+      setSuccess('User deleted successfully');
+      fetchUsers();
+    } catch (error) {
+      setError('Failed to delete user');
+    }
+  };
+
   return (
     <Container maxWidth="lg">
       <Box sx={{ mt: 4 }}>
@@ -102,13 +112,25 @@ const AdminPanel = () => {
                     <TableCell>{user.email}</TableCell>
                     <TableCell>{user.role}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => handleEditUser(user)}
-                      >
-                        Edit Role
-                      </Button>
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          onClick={() => handleEditUser(user)}
+                        >
+                          Edit Role
+                        </Button>
+                        {(user.role === 'user' || user.role === 'moderator') && (
+                          <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => handleDeleteUser(user._id)}
+                          >
+                            Delete
+                          </Button>
+                        )}
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}

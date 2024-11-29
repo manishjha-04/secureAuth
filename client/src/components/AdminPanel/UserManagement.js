@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import {
   Typography,
   Card,
   CardContent,
+  DialogContentText,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import {
@@ -30,7 +31,10 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserRole, setCurrentUserRole] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -42,7 +46,18 @@ const UserManagement = () => {
   useEffect(() => {
     fetchUsers();
     fetchRoles();
+    fetchCurrentUser();
   }, []);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await axios.get('/api/profile');
+      setCurrentUser(response.data.user);
+      setCurrentUserRole(response.data.user.role);
+    } catch (error) {
+      enqueueSnackbar('Failed to fetch user role', { variant: 'error' });
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -94,6 +109,16 @@ const UserManagement = () => {
     });
   };
 
+  const handleOpenDeleteDialog = (user) => {
+    setSelectedUser(user);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+    setSelectedUser(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -113,14 +138,28 @@ const UserManagement = () => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteUser = async () => {
     try {
-      await axios.delete(`/api/users/${userId}`);
+      await axios.delete(`/api/users/${selectedUser._id}`);
       enqueueSnackbar('User deleted successfully', { variant: 'success' });
       fetchUsers();
+      handleCloseDeleteDialog();
     } catch (error) {
-      enqueueSnackbar('Failed to delete user', { variant: 'error' });
+      enqueueSnackbar(error.response?.data?.message || 'Failed to delete user', { 
+        variant: 'error' 
+      });
     }
+  };
+
+  const canDeleteUser = (user) => {
+    if (currentUserRole === 'admin') {
+      // Admin can delete anyone except themselves
+      return user._id !== currentUser?._id;
+    } else if (currentUserRole === 'moderator') {
+      // Moderator can only delete regular users
+      return user.role === 'user';
+    }
+    return false;
   };
 
   const columns = [
@@ -153,21 +192,27 @@ const UserManagement = () => {
       headerName: 'Actions',
       flex: 1,
       renderCell: (params) => (
-        <Box>
-          <IconButton
-            onClick={() => handleOpenDialog(params.row)}
-            color="primary"
-            size="small"
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => handleDeleteUser(params.row._id)}
-            color="error"
-            size="small"
-          >
-            <DeleteIcon />
-          </IconButton>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {currentUserRole === 'admin' && (
+            <IconButton
+              onClick={() => handleOpenDialog(params.row)}
+              color="primary"
+              size="small"
+              title="Edit User"
+            >
+              <EditIcon />
+            </IconButton>
+          )}
+          {canDeleteUser(params.row) && (
+            <IconButton
+              onClick={() => handleOpenDeleteDialog(params.row)}
+              color="error"
+              size="small"
+              title="Delete User"
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
         </Box>
       ),
     },
@@ -181,13 +226,15 @@ const UserManagement = () => {
     >
       <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">User Management</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => handleOpenDialog()}
-        >
-          Add User
-        </Button>
+        {currentUserRole === 'admin' && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => handleOpenDialog()}
+          >
+            Add User
+          </Button>
+        )}
       </Box>
 
       <Card>
@@ -197,7 +244,7 @@ const UserManagement = () => {
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}
-            checkboxSelection
+            checkboxSelection={false}
             disableSelectionOnClick
             autoHeight
             getRowId={(row) => row._id}
@@ -210,6 +257,7 @@ const UserManagement = () => {
         </CardContent>
       </Card>
 
+      {/* Edit/Create User Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
         <form onSubmit={handleSubmit}>
           <DialogTitle>
@@ -274,6 +322,27 @@ const UserManagement = () => {
             </Button>
           </DialogActions>
         </form>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Delete User</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete the user "{selectedUser?.username}"? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+          <Button onClick={handleDeleteUser} color="error" variant="contained">
+            Delete
+          </Button>
+        </DialogActions>
       </Dialog>
     </motion.div>
   );
