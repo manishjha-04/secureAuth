@@ -32,13 +32,26 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const validatePassword = (password) => {
+    const requirements = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[@$!%*?&]/.test(password)
+    };
+    return requirements;
+  };
 
   const passwordRequirements = [
-    'At least 8 characters long',
-    'At least one uppercase letter',
-    'At least one lowercase letter',
-    'At least one number',
-    'At least one special character (@$!%*?&)'
+    { text: 'At least 8 characters long', met: false },
+    { text: 'At least one uppercase letter', met: false },
+    { text: 'At least one lowercase letter', met: false },
+    { text: 'At least one number', met: false },
+    { text: 'At least one special character (@$!%*?&)', met: false }
   ];
 
   const handleChange = (e) => {
@@ -56,8 +69,9 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
-    // Check if all password requirements are met
-    const allRequirementsMet = passwordRequirements.every(req => req.met);
+    const requirements = validatePassword(formData.password);
+    const allRequirementsMet = Object.values(requirements).every(req => req);
+    
     if (!allRequirementsMet) {
       setError('Please ensure your password meets all the requirements');
       return;
@@ -81,6 +95,14 @@ const Register = () => {
       setError(result.error);
     }
   };
+
+  // Update password requirements status
+  const currentRequirements = validatePassword(formData.password);
+  passwordRequirements[0].met = currentRequirements.length;
+  passwordRequirements[1].met = currentRequirements.uppercase;
+  passwordRequirements[2].met = currentRequirements.lowercase;
+  passwordRequirements[3].met = currentRequirements.number;
+  passwordRequirements[4].met = currentRequirements.special;
 
   return (
     <Container maxWidth="sm">
@@ -120,21 +142,41 @@ const Register = () => {
               fullWidth
               label="Password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={formData.password}
               onChange={handleChange}
               margin="normal"
               required
+              InputProps={{
+                endAdornment: (
+                  <Button
+                    onClick={() => setShowPassword(!showPassword)}
+                    sx={{ minWidth: 'auto', p: 0 }}
+                  >
+                    {showPassword ? 'Hide' : 'Show'}
+                  </Button>
+                ),
+              }}
             />
             <TextField
               fullWidth
               label="Confirm Password"
               name="confirmPassword"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               value={formData.confirmPassword}
               onChange={handleChange}
               margin="normal"
               required
+              InputProps={{
+                endAdornment: (
+                  <Button
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    sx={{ minWidth: 'auto', p: 0 }}
+                  >
+                    {showConfirmPassword ? 'Hide' : 'Show'}
+                  </Button>
+                ),
+              }}
             />
 
             <FormControlLabel
@@ -166,9 +208,15 @@ const Register = () => {
                   {passwordRequirements.map((req, index) => (
                     <ListItem key={index}>
                       <ListItemIcon>
-                        <CheckCircleOutline fontSize="small" color="primary" />
+                        <CheckCircleOutline 
+                          fontSize="small" 
+                          color={req.met ? "primary" : "disabled"}
+                        />
                       </ListItemIcon>
-                      <ListItemText primary={req} />
+                      <ListItemText 
+                        primary={req.text}
+                        sx={{ color: req.met ? 'text.primary' : 'text.secondary' }}
+                      />
                     </ListItem>
                   ))}
                 </List>
