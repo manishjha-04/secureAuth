@@ -56,6 +56,13 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
+    // Check if all password requirements are met
+    const allRequirementsMet = passwordRequirements.every(req => req.met);
+    if (!allRequirementsMet) {
+      setError('Please ensure your password meets all the requirements');
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
