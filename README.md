@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# Secure Authentication System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, full-stack authentication and authorization system built with React, Node.js, and MongoDB, implementing industry-standard security practices.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+### Authentication & Authorization
+- Secure user registration and login
+- Role-Based Access Control (RBAC)
+- JWT-based authentication
+- Two-Factor Authentication (2FA)
+- Session management with token blacklisting
+- Password hashing with bcrypt
 
-### `npm start`
+### Security Features
+- Rate limiting to prevent brute force attacks
+- Helmet.js for security headers
+- CORS protection
+- Input validation and sanitization
+- Secure password policies
+- Automated token cleanup
+- Login attempt monitoring
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### User Management
+- User profile management
+- Admin panel for user administration
+- Email verification
+- Password reset functionality
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Frontend
+- Modern Material-UI interface
+- Responsive design
+- Protected routes
+- User-friendly error handling
 
-### `npm test`
+### Development & Testing
+- Comprehensive test suite (Jest)
+- Development and production configurations
+- Code splitting for optimal performance
+- Environment-based configurations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+- **Frontend**: React, Material-UI, React Router
+- **Backend**: Node.js, Express
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT, Speakeasy (2FA)
+- **Security**: Helmet, CORS, Express-validator
+- **Testing**: Jest, React Testing Library
+- **Others**: Nodemailer, QRCode
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📦 Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd auth-system
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Install dependencies:
+```bash
+# Install backend dependencies
+npm install
 
-### `npm run eject`
+# Install frontend dependencies
+cd client
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Set up environment variables:
+```bash
+# Copy example env file
+cp .env.example .env
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Configure your environment variables in `.env`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🚀 Running the Application
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Development Mode
+```bash
+# Run both frontend and backend
+npm run dev
 
-## Learn More
+# Run backend only
+npm run server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Run frontend only
+npm run client
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Production Mode
+```bash
+# Build frontend
+cd client
+npm run build
 
-### Code Splitting
+# Start server
+cd ..
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🧪 Testing
 
-### Analyzing the Bundle Size
+```bash
+# Run all tests
+npm test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Run backend tests
+npm run test:backend
 
-### Making a Progressive Web App
+# Run frontend tests
+npm run test:frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# Run tests in watch mode
+npm run test:watch
+```
 
-### Advanced Configuration
+## 🔒 Security Best Practices
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Implements rate limiting for API endpoints
+- Uses secure HTTP headers with Helmet.js
+- Stores passwords using bcrypt hashing
+- Implements JWT token blacklisting
+- Monitors and limits login attempts
+- Provides 2FA for additional security
+- Validates and sanitizes all user inputs
+- Implements CORS protection
 
-### Deployment
+## 📝 API Documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Authentication Endpoints
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/2fa/setup` - Setup 2FA
+- `POST /api/auth/2fa/verify` - Verify 2FA token
 
-### `npm run build` fails to minify
+### Protected Endpoints
+- `GET /api/protected/profile` - Get user profile
+- `PUT /api/protected/profile` - Update user profile
+- `GET /api/protected/admin/users` - List all users (Admin only)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the ISC License. 
