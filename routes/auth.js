@@ -255,6 +255,36 @@ router.post('/2fa/setup', authenticate, async (req, res) => {
   }
 });
 
+// Verify and enable 2FA
+router.post('/2fa/verify', authenticate, async (req, res) => {
+  try {
+    const { token } = req.body;
+    const user = await User.findById(req.user._id);
+
+    if (!user.twoFactorSecret) {
+      return res.status(400).json({ message: '2FA setup not initiated' });
+    }
+
+    const verified = speakeasy.totp.verify({
+      secret: user.twoFactorSecret,
+      encoding: 'base32',
+      token,
+      window: 1
+    });
+
+    if (!verified) {
+      return res.status(400).json({ message: 'Invalid verification code' });
+    }
+
+    user.twoFactorEnabled = true;
+    await user.save();
+
+    res.json({ message: '2FA enabled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error verifying 2FA' });
+  }
+});
+
 // Send 2FA email notifications
 router.post('/2fa/notify', authenticate, async (req, res) => {
   try {
