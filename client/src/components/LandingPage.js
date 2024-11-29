@@ -17,10 +17,7 @@ import {
   AdminPanelSettings,
   Code,
   Create,
-  VpnKey,
-  GroupWork,
   Shield,
-  Lock,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -65,7 +62,6 @@ const FeatureSection = ({ icon, title, items }) => {
 const LandingPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const theme = useTheme();
 
   const features = [
     {

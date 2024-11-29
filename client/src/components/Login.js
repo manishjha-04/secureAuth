@@ -9,10 +9,6 @@ import {
   Box,
   Alert,
   CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
