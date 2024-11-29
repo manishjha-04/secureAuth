@@ -8,6 +8,11 @@ Email: admin@gmail.com
 Password: Admin1234%
 ```
 
+##### Access the Admin Panel or Moderator Dashboard
+
+- **Admin Panel**: Log in as an administrator to view, edit, or delete users or moderators.  
+- **Moderator Dashboard**: If logged in as a moderator, navigate to the moderator panel to manage moderator-specific tasks.  
+
 ## Table of Contents
 - [Features](#-features)
   - [Authentication & Authorization](#authentication--authorization)
