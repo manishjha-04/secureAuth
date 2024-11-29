@@ -2,6 +2,12 @@
 
 A modern, full-stack authentication and authorization system built with React, Node.js, and MongoDB, implementing industry-standard security practices.
 
+## 🚀 Default Admin Credentials
+```bash
+Email: admin@gmail.com
+Password: Admin1234%
+```
+
 ## 🚀 Features
 
 ### Authentication & Authorization
