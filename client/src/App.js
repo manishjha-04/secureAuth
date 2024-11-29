@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
+import ModeratorPanel from './components/ModeratorPanel';
 import LandingPage from './components/LandingPage';
 import TwoFactorSetup from './components/TwoFactorSetup';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -58,6 +59,14 @@ function App() {
                 element={
                   <PrivateRoute roles={['admin']}>
                     <AdminPanel />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/moderator"
+                element={
+                  <PrivateRoute roles={['moderator', 'admin']}>
+                    <ModeratorPanel />
                   </PrivateRoute>
                 }
               />

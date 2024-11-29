@@ -34,7 +34,7 @@ const AdminPanel = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/protected/users');
+      const response = await axios.get('/api/protected/users');
       setUsers(response.data);
     } catch (error) {
       setError('Failed to fetch users');
@@ -53,7 +53,7 @@ const AdminPanel = () => {
 
   const handleUpdateUser = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/protected/users/${selectedUser._id}`, {
+      await axios.put(`/api/protected/users/${selectedUser._id}`, {
         role: selectedUser.role,
       });
       
@@ -67,7 +67,7 @@ const AdminPanel = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/protected/users/${userId}`);
+      await axios.delete(`/api/protected/users/${userId}`);
       setSuccess('User deleted successfully');
       fetchUsers();
     } catch (error) {
@@ -140,7 +140,12 @@ const AdminPanel = () => {
         </Paper>
       </Box>
 
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog 
+        open={openDialog} 
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        fullWidth
+      >
         <DialogTitle>Edit User Role</DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2 }}>

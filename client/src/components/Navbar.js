@@ -40,6 +40,11 @@ const Navbar = () => {
                   Admin Panel
                 </Button>
               )}
+              {(user.role === 'moderator' ) && (
+                <Button color="inherit" onClick={() => navigate('/moderator')}>
+                  Moderator Panel
+                </Button>
+              )}
               <Button color="inherit" onClick={() => navigate('/dashboard')}>
                 Dashboard
               </Button>
