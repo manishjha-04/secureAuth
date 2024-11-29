@@ -12,6 +12,7 @@ const QRCode = require('qrcode');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+require('dotenv').config();
 
 // Email transporter setup
 const transporter = nodemailer.createTransport({

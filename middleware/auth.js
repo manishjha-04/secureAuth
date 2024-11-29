@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const BlacklistedToken = require('../models/BlacklistedToken');
+require('dotenv').config();
 
 exports.authenticate = async (req, res, next) => {
   try {
