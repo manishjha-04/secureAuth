@@ -1,7 +1,7 @@
 {
-  "name": "auth-system",
+  "name": "admin-management-system",
   "version": "1.0.0",
-  "description": "Authentication and Authorization System with RBAC",
+  "description": "Administrative Management System with Role-Based Access Control",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

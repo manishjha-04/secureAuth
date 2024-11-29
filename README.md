@@ -1,4 +1,4 @@
-# Secure Authentication System
+# Administrative Management System
 
 A modern, full-stack authentication and authorization system built with React, Node.js, and MongoDB, implementing industry-standard security practices.
 
@@ -54,7 +54,7 @@ A modern, full-stack authentication and authorization system built with React, N
 1. Clone the repository:
 ```bash
 git clone [repository-url]
-cd auth-system
+cd secureAuth
 ```
 
 2. Install dependencies:

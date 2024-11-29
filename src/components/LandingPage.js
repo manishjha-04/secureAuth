@@ -132,7 +132,7 @@ const LandingPage = () => {
             gutterBottom
             fontWeight="bold"
           >
-            Secure Authentication System
+           Administrative Management System
           </Typography>
           <Typography variant="h5" color="text.secondary" paragraph>
             A modern authentication and authorization system built with security best practices
