@@ -2,11 +2,33 @@
 
 A modern, full-stack authentication and authorization system built with React, Node.js, and MongoDB, implementing industry-standard security practices.
 
-## 🚀 Default Admin Credentials
+##### Default Admin Credentials
 ```bash
 Email: admin@gmail.com
 Password: Admin1234%
 ```
+
+## Table of Contents
+- [Features](#-features)
+  - [Authentication & Authorization](#authentication--authorization)
+  - [Security Features](#security-features)
+  - [User Management](#user-management)
+  - [Frontend](#frontend)
+  - [Development & Testing](#development--testing)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Running the Application](#-running-the-application)
+  - [Development Mode](#development-mode)
+  - [Production Mode](#production-mode)
+- [Testing](#-testing)
+- [Security Best Practices](#-security-best-practices)
+- [API Documentation](#-api-documentation)
+  - [Authentication Endpoints](#authentication-endpoints)
+  - [Protected Endpoints](#protected-endpoints)
+  - [Role-Based Access](#role-based-access)
+  - [Security Features](#security-features-1)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 🚀 Features
 
@@ -138,13 +160,32 @@ npm run test:watch
 ### Authentication Endpoints
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
 - `POST /api/auth/2fa/setup` - Setup 2FA
 - `POST /api/auth/2fa/verify` - Verify 2FA token
+- `POST /api/auth/2fa/disable` - Disable 2FA
+- `POST /api/auth/2fa/notify` - Send 2FA status notification
+- `POST /api/auth/change-password` - Change user password
+- `POST /api/auth/refresh-token` - Refresh access token
 
 ### Protected Endpoints
 - `GET /api/protected/profile` - Get user profile
 - `PUT /api/protected/profile` - Update user profile
-- `GET /api/protected/admin/users` - List all users (Admin only)
+- `GET /api/protected/users` - List all users (Admin only)
+- `PUT /api/protected/users/:id` - Update user role (Admin only)
+- `DELETE /api/protected/users/:id` - Delete user (Admin and Moderator)
+
+### Role-Based Access
+- **Admin**: Full access to all endpoints
+- **Moderator**: Can delete regular users, access moderator-specific features
+- **User**: Access to profile management and basic features
+
+### Security Features
+- JWT token rotation with refresh tokens
+- Two-Factor Authentication (2FA) with backup codes
+- Password history tracking
+- Account lockout after failed attempts
+- Email notifications for security events
 
 ## 🤝 Contributing
 
