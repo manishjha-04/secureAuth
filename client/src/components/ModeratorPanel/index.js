@@ -38,16 +38,17 @@ const ModeratorPanel = () => {
       const response = await axios.get(`${API_URL}/api/protected/users`);
       setUsers(response.data);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      setError('Failed to fetch users');
     }
   };
 
   const handleDeleteUser = async (userId) => {
     try {
       await axios.delete(`${API_URL}/api/protected/users/${userId}`);
+      setSuccess('User deleted successfully');
       fetchUsers();
     } catch (error) {
-      console.error('Error deleting user:', error);
+      setError('Failed to delete user');
     }
   };
 
