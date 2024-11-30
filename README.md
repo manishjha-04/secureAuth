@@ -4,12 +4,6 @@ A modern, full-stack authentication and authorization system built with React, N
 
 ![Screenshot](public/ss.png)
 
-##### Default Admin Credentials
-```bash
-Email: admin@gmail.com
-Password: Admin1234%
-```
-
 ##### Access the Admin Panel or Moderator Dashboard
 
 - **Admin Panel**: Log in as an administrator to view, edit, or delete users or moderators.  
